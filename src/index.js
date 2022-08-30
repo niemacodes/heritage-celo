@@ -24,8 +24,8 @@ ReactDOM.render(
         chainId: 44787,
       }}
       dapp={{
-        name: "Celo React Boilerplate",
-        description: "A React Boilerplate for Celo Dapps",
+        name: "HERIT.age",
+        description: "A cultural marketplace built on the Celo chain.",
       }}
     >
       <App />

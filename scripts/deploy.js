@@ -1,25 +1,14 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// When running the script with `npx hardhat run <script>` you'll find the Hardhat
-// Runtime Environment's members available in the global scope.
 const hre = require("hardhat");
+const { artifacts } = require("hardhat");
 
 async function main() {
-  // Hardhat always runs the compile task when running scripts with its command
-  // line interface.
-  //
-  // If this script is run directly using `node` you may want to call compile
-  // manually to make sure everything is compiled
-  // await hre.run('compile');
+  const HeritageNFT = await hre.ethers.getContractFactory("HeritageNFT");
+  const heritageNFT = await HeritageNFT.deploy();
 
-  const Counter = await hre.ethers.getContractFactory("Counter");
-  const deployed = await Counter.deploy();
+  await heritageNFT.deployed();
 
-  await deployed.deployed();
-
-  console.log("Contract deployed to:", deployed.address);
-  storeContractData(deployed)
+  console.log("HeritageNFT deployed to:", heritageNFT.address);
+  storeContractData(heritageNFT);
 }
 
 function storeContractData(contract) {
@@ -31,24 +20,21 @@ function storeContractData(contract) {
   }
 
   fs.writeFileSync(
-    contractsDir + "/CounterAddress.json",
-    JSON.stringify({ Counter: contract.address }, undefined, 2)
+    contractsDir + "/HeritageNFT-address.json",
+    JSON.stringify({ HeritageNFT: contract.address }, undefined, 2)
   );
 
-  const CounterArtifact = artifacts.readArtifactSync("Counter");
+  const HeritageNFTArtifact = artifacts.readArtifactSync("HeritageNFT");
 
   fs.writeFileSync(
-    contractsDir + "/Counter.json",
-    JSON.stringify(CounterArtifact, null, 2)
+    contractsDir + "/HeritageNFT.json",
+    JSON.stringify(HeritageNFTArtifact, null, 2)
   );
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
 main()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error(error);
     process.exit(1);
   });
-
